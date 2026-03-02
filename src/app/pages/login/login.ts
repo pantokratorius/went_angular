@@ -13,7 +13,7 @@ import { finalize } from 'rxjs';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-   loading = signal(false);
+    loading = signal(false);
     error = signal<string | null>(null);
 
   constructor(
