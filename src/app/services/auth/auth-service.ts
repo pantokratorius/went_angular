@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -41,8 +41,9 @@ export class AuthService {
     return this.http.get('/api/me')
       .pipe(
         tap(user => this._user.set(user)),
-        tap({
-          error: () => this._user.set(null)
+        catchError(() => {
+          this._user.set(null);
+          return of(null);
         })
       );
   }
