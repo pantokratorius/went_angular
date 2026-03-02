@@ -8,39 +8,31 @@ export class AuthService {
   private _user = signal<any | null>(null);
   private _loading = signal(false);
 
-  user = this._user.asReadonly();
-  loading = this._loading.asReadonly();
-  isAuthenticated = computed(() => !!this._user());
+  readonly user = this._user.asReadonly();
+  readonly loading = this._loading.asReadonly();
+  readonly isAuthenticated = computed(() => !!this._user());
 
   constructor(private http: HttpClient) {}
 
-  private setUser(user: any | null) {
-    this._user.set(user);
-  }
-
-  private setLoading(value: boolean) {
-    this._loading.set(value);
-  }
-
   login(credentials: { email: string; password: string }) {
-    this.setLoading(true);
+    this._loading.set(true);
 
-    return this.http.post('/api/login', credentials).pipe(
-      tap(user => this.setUser(user)),
-      finalize(() => this.setLoading(false))
+    return this.http.post<any>('/api/login', credentials).pipe(
+      tap(user => this._user.set(user)),
+      finalize(() => this._loading.set(false))
     );
   }
 
   logout() {
     return this.http.post('/api/logout', {}).pipe(
-      tap(() => this.setUser(null))
+      tap(() => this._user.set(null))
     );
   }
 
   loadUser() {
-    return this.http.get('/api/me').pipe(
+    return this.http.get<any>('/api/me').pipe(
       catchError(() => of(null)),
-      tap(user => this.setUser(user))
+      tap(user => this._user.set(user))
     );
   }
 }
