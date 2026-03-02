@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth-service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
+  imports: [ReactiveFormsModule],
+  styleUrls: ['./login.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -29,16 +32,18 @@ export class LoginComponent {
     this.loading = true;
     this.error = null;
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        console.log('Logged in successfully', res);
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.error = err.error?.error || 'Login failed';
-        this.loading = false;
-      },
-      complete: () => (this.loading = false),
-    });
+    this.authService.login(this.loginForm.value)
+      .pipe(
+        finalize(() => this.loading = false) // always runs last
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Вход выполнен успешно', res);
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => { 
+          this.error = err.error?.error || 'Войти не удалось';
+        }
+      });
   }
 }
