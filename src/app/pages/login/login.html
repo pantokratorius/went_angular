@@ -35,11 +35,11 @@
     </div>
 
     <button type="submit" >
-   {{ loading ? 'Выполняется вход...' : 'Вход' }}
+   {{ loading() ? 'Выполняется вход...' : 'Вход' }}
     </button>
 
-    @if (error) {
-      <p class="error">{{ error }}</p>
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
     }
   </form>
 </div>

@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth-service';
-import { finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
-  imports: [ReactiveFormsModule],
   styleUrls: ['./login.css'],
+  imports: [ReactiveFormsModule],
+  
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  loading = false;
-  error: string | null = null;
+   loading = signal(false);
+    error = signal<string | null>(null);
 
   constructor(
     private fb: FormBuilder,
@@ -29,21 +30,14 @@ export class LoginComponent {
   submit(): void {
     if (this.loginForm.invalid) return;
 
-    this.loading = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
 
     this.authService.login(this.loginForm.value)
-      .pipe(
-        finalize(() => this.loading = false) // always runs last
-      )
+      .pipe(finalize(() => this.loading.set(false))) 
       .subscribe({
-        next: (res) => {
-          console.log('Вход выполнен успешно', res);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (err) => { 
-          this.error = err.error?.error || 'Войти не удалось';
-        }
+        next: (res) => this.router.navigate(['/dashboard']),
+        error: (err) => this.error.set(err.error?.error || 'Войти не удалось'), 
       });
   }
 }

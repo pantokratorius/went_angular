@@ -54,10 +54,10 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "configurations": {
-            "options": {
+          "options": {
               "proxyConfig": "proxy.conf.json"
             },
+          "configurations": {
             "production": {
               "buildTarget": "went_angular:build:production"
             },
