@@ -1,1 +1,88 @@
-<p>dashboard works!</p>
+
+
+<div class="sidebar">
+    <h2>Меню</h2>
+    <ul class="menu">
+        <li>Главная</li>
+        <li>Поиск заказов</li>
+        <li class="active">Мои перевозки</li>
+        <li>Документы и финансы</li>
+        <li>Мой автопарк</li>
+        <li>Свободные машины</li>
+        <li>Топливные карты</li>
+        <li>Обратная связь</li>
+    </ul>
+</div>
+
+<!-- ===== Main Content ===== -->
+
+<div class="main">
+
+    <!-- Filters -->
+    <div class="filters">
+        <div>
+            <label>Откуда</label>
+            <input type="text" placeholder="Город отправления">
+        </div>
+
+        <div>
+            <label>Куда</label>
+            <input type="text" placeholder="Город назначения">
+        </div>
+
+        <div>
+            <label>№ машины</label>
+            <input type="text">
+        </div>
+
+        <div>
+            <label>Статус</label>
+            <select>
+                <option>Все</option>
+                <option>Активные</option>
+                <option>Завершенные</option>
+            </select>
+        </div>
+
+        <div>
+            <button class="btn-reset">Сбросить</button>
+        </div>
+
+        <div>
+            <button class="btn-search">Поиск</button>
+        </div>
+    </div>
+
+    <!-- Cards -->
+
+    <div class="card">
+        <div class="card-left">
+            <div class="status">Завершенная</div>
+            <div class="route">Новочеркасск → Тверь</div>
+            <div class="details">
+                Машина: H027MP-152 <br>
+                Прицеп: EH5556-52
+            </div>
+        </div>
+        <div class="card-right">
+            <div class="price">45 000 ₽</div>
+            <div class="date">7 дек. 2025 – 10 дек. 2025</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-left">
+            <div class="status">Завершенная</div>
+            <div class="route">Новочеркасск → Ульяновск</div>
+            <div class="details">
+                Машина: H027MP-152 <br>
+                Прицеп: EH5556-52
+            </div>
+        </div>
+        <div class="card-right">
+            <div class="price">55 000 ₽</div>
+            <div class="date">10 нояб. 2025 – 13 нояб. 2025</div>
+        </div>
+    </div>
+
+</div>
