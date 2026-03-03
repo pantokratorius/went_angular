@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError, finalize, of, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, finalize, of, tap, switchMap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,23 +16,35 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }) {
     this._loading.set(true);
-
-    return this.http.post<any>('/api/login', credentials).pipe(
-      tap(user => this._user.set(user)),
+    return this.http.post('/api/login', credentials, { withCredentials: true }).pipe(
+      switchMap(() => this.loadUser()), // load user after login
       finalize(() => this._loading.set(false))
     );
   }
 
   logout() {
-    return this.http.post('/api/logout',{}).pipe(
+    return this.http.post('/api/logout', {}, { withCredentials: true }).pipe(
       tap(() => this._user.set(null))
     );
   }
 
   loadUser() {
-    return this.http.get<any>('/api/me').pipe(
-      catchError(() => of(null)),
+    return this.http.get('/api/me', { withCredentials: true }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        // If access token expired, try refresh
+        if (err.status === 401) {
+          return this.refreshToken().pipe(
+            switchMap(() => this.http.get('/api/me', { withCredentials: true })),
+            catchError(() => of(null))
+          );
+        }
+        return of(null);
+      }),
       tap(user => this._user.set(user))
     );
+  }
+
+  refreshToken() {
+    return this.http.post('/api/refresh', {}, { withCredentials: true });
   }
 }
