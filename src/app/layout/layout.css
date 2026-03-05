@@ -14,4 +14,16 @@ header {
 
   }
 
+  
+}
+
+
+.sidebar-wrap {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+}
+
+.top {
+    background: green;
+    height: 200px;
 }

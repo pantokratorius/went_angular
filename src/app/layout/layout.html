@@ -5,5 +5,26 @@
 </div>
 </header>
 
-<router-outlet />
+<div class="sidebar-wrap">
 
+<div class="sidebar">
+    <h2>Меню</h2>
+    <nav>
+    <ul class="menu">
+        <li>Главная</li>
+        <li>Поиск заказов</li>
+        <li >Мои перевозки</li>
+        <li routerLink="/dashboard" routerLinkActive="active">Документы и финансы</li>
+         <li routerLink="/documents" routerLinkActive="active">Мой автопарк</li>
+        <li>Свободные машины</li>
+        <li>Топливные карты</li>
+        <li><a routerLink="/login">Обратная связь</a></li>
+    </ul>
+    </nav>
+</div>
+
+<main class="content">
+  <router-outlet></router-outlet >
+</main>
+
+</div>
