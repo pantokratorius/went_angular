@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login';
 import { authGuard } from './services/auth/access-guard';
 import { Layout } from './layout/layout';
 import { Domuments } from './pages/domuments/domuments';
+import { Pogruzki } from './pages/pogruzki/pogruzki.';
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -15,6 +16,7 @@ export const routes: Routes = [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', component: Dashboard},
       {path: 'documents', component: Domuments},
+      {path: 'pogruzki', component: Pogruzki},
     ]},
 
 ];

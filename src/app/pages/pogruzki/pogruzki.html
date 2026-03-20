@@ -1,0 +1,90 @@
+
+
+
+
+<!-- ===== Main Content ===== -->
+
+<div class="main">
+
+    <!-- Filters -->
+    <div class="filters">
+        <div>
+            <label>Откуда</label>
+            <input type="text" placeholder="Город отправления">
+        </div>
+
+        <div>
+            <label>Куда</label>
+            <input type="text" placeholder="Город назначения">
+        </div>
+
+        <div>
+            <label>№ машины</label>
+            <input type="text">
+        </div>
+
+        <div>
+            <label>Статус</label>
+            <select>
+                <option>Все</option>
+                <option>Активные</option>
+                <option>Завершенные</option>
+            </select>
+        </div>
+
+        <div>
+            <button class="btn-reset">Сбросить</button>
+        </div>
+
+        <div>
+            <button class="btn-search">Поиск</button>
+        </div>
+    </div>
+
+
+
+@if (loading()) {
+  <div>Загружаю...</div>
+}
+@else if (error()) {
+  <div>{{ error() }}</div>
+}
+@else {
+
+  @for (item of paginatedData(); track item.id) {
+    <div class="card" animate.enter="enter-animation">
+        <div class="card-left">
+            <div class="status">Завершенная</div>
+            <div class="route">{{item.city != '' ? item.city : (item.settlement != '' ? item.settlement : item.name) }}  → 
+                {{item.city2 != '' ? item.city2 : (item.settlement2 != '' ? item.settlement2 : item.name2) }}
+            </div>
+            <div class="details">
+                Машина: {{item.plateTruck}} <br>
+                Прицеп: {{item.plateTrailer}}
+            </div>
+        </div>
+        <div class="card-right">
+            <div class="price">{{item.shipmentprice}} ₽</div>
+            <div class="date">{{item.dateload}} – {{item.datelast}}</div>
+        </div>
+    </div>
+  }
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page() === 1">
+      &larr;
+    </button>
+
+    <span>Стр. {{ page() }} / {{ totalPages() }}</span>
+
+    <button (click)="nextPage()" [disabled]="page() === totalPages()">
+      &rarr;
+    </button>
+  </div>
+
+}
+    
+
+ 
+
+</div>
