@@ -9,3 +9,6 @@ import { Dashboard } from "../pages/dashboard/dashboard";
   styleUrl: './layout.css',
 })
 export class Layout {}
+
+
+// ng build --configuration production --base-href /admin/

@@ -29,20 +29,11 @@ export class AuthService {
   }
 
   loadUser() {
-    return this.http.get('/api/me', { withCredentials: true }).pipe(
-      catchError((err: HttpErrorResponse) => {
-        // If access token expired, try refresh
-        if (err.status === 401) {
-          return this.refreshToken().pipe(
-            switchMap(() => this.http.get('/api/me', { withCredentials: true })),
-            catchError(() => of(null))
-          );
-        }
-        return of(null);
-      }),
-      tap(user => this._user.set(user))
-    );
-  }
+  return this.http.get('/api/me', { withCredentials: true }).pipe(
+    catchError(() => of(null)),
+    tap(user => this._user.set(user))
+  );
+}
 
   refreshToken() {
     return this.http.post('/api/refresh', {}, { withCredentials: true });
