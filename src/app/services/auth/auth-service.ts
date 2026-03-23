@@ -20,10 +20,19 @@ export class AuthService {
 
   // LOGOUT
   logout() {
-    return this.http.post('/api/logout', {}, { withCredentials: true }).pipe(
-      tap(() => this._user.set(null))
-    );
-  }
+  this.http.post('/api/logout', {}, { withCredentials: true }).subscribe({
+    next: () => {
+      // Clear user state
+      this._user.set(null);
+      // Reload page so cookie disappears
+      window.location.href = '/';
+    },
+    error: () => {
+      // Fallback reload even if request fails
+      window.location.href = '/';
+    }
+  });
+}
 
   // LOAD USER
   loadUser() {
