@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, tap, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -9,7 +10,7 @@ export class AuthService {
   readonly user = this._user.asReadonly();
   readonly isAuthenticated = () => !!this._user();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   // LOGIN
   login(credentials: { email: string; password: string }) {
@@ -25,11 +26,11 @@ export class AuthService {
       // Clear user state
       this._user.set(null);
       // Reload page so cookie disappears
-      window.location.href = '/admin/login';
+      this.router.navigate(['/login']);
     },
     error: () => {
       // Fallback reload even if request fails
-      window.location.href = '/admin/login?error=true';
+      this.router.navigate(['/login']);
     }
   });
 }
