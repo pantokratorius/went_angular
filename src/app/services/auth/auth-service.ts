@@ -25,7 +25,7 @@ export class AuthService {
       // Clear user state
       this._user.set(null);
       // Reload page so cookie disappears
-      window.location.href = '/';
+      window.location.href = '/login';
     },
     error: () => {
       // Fallback reload even if request fails
