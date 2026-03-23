@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Dashboard } from "../pages/dashboard/dashboard";
+import { AuthService } from '../services/auth/auth-service';
 
 @Component({
   selector: 'app-layout',
@@ -8,7 +9,13 @@ import { Dashboard } from "../pages/dashboard/dashboard";
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
-export class Layout {}
+export class Layout {
+  constructor(private auth: AuthService) {}
 
 
-// ng build --configuration production --base-href /admin/
+   logout() {
+    this.auth.logout();
+  }
+
+}
+
