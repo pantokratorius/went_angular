@@ -25,11 +25,11 @@ export class AuthService {
       // Clear user state
       this._user.set(null);
       // Reload page so cookie disappears
-      window.location.href = '/login';
+      window.location.href = '/admin/login';
     },
     error: () => {
       // Fallback reload even if request fails
-      window.location.href = '/login?error=true';
+      window.location.href = '/admin/login?error=true';
     }
   });
 }
