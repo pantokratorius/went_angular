@@ -29,7 +29,7 @@ export class AuthService {
     },
     error: () => {
       // Fallback reload even if request fails
-      window.location.href = '/';
+      window.location.href = '/login?error=true';
     }
   });
 }
